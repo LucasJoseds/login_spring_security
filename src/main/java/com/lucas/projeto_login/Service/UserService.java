@@ -34,11 +34,24 @@ public class UserService {
 
     }
 
-    //public List<User> listUserPages(int paginas , int itens){
-        
-       // var listUser = userRepository.findAll(PageRequest.of(paginas,itens)).getContent();    
-       // return listUser;
-   // }
+   public UserResponseDTO updateUser(Long id, UserResponseDTO dto){
+
+    var user = userRepository.findById(id).get();
+
+    if(user==null){
+        return null;
+    }
+    user.setEmail(dto.email());
+    user.setName(dto.name());
+
+    var nUser = UserResponseDTO.valueOf(user);
+
+    userRepository.save(user);
+
+    return nUser;
+
+  
+   }
 
     public List<UserResponseDTO> listName(int paginas , int itens){
 
