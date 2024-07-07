@@ -25,10 +25,7 @@ public class UserService {
 
     public User create (UserDTO dto){
 
-        User nUser =  new User();
-        nUser.setName(dto.name());
-        nUser.setPassword(dto.password());
-        nUser.setEmail(dto.email());
+        User nUser = UserDTO.converterDTO(dto);
         
         return userRepository.save(nUser);
 
