@@ -19,6 +19,9 @@ public class User {
 
     private String email;
 
+    
+    private int idade;
+
     private String password; 
 
 
@@ -54,6 +57,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
     }
 
 
