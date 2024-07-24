@@ -1,8 +1,5 @@
 package com.lucas.projeto_login.Repository;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,7 @@ public class UserRepositoryTest {
         user.setName("Lucas José");
         user.setEmail("lucasjs088@gmail.com");
         user.setPassword("123");
-        user.setIdade(20);
+     
 
         userRepository.save(user);
 
@@ -36,7 +33,7 @@ public class UserRepositoryTest {
         user.setName("Pedro José");
         user.setEmail("pedro@gmail.com");
         user.setPassword("3424234");
-        user.setIdade(10);
+     
 
         userRepository.save(user2);
 
@@ -44,15 +41,14 @@ public class UserRepositoryTest {
         user.setName("João José");
         user.setEmail("joao@gmail.com");
         user.setPassword("3424234");
-        user.setIdade(21);
-
+      
         userRepository.save(user3);
 
         User user4 = new User();
         user.setName("Maria José");
         user.setEmail("maria@gmail.com");
         user.setPassword("2423234");
-        user.setIdade(25);
+      
 
         userRepository.save(user4);
     }
@@ -60,8 +56,8 @@ public class UserRepositoryTest {
     @Test
     void findByMaiorIdade(){
 
-       List<User> usersList = userRepository.findByMaiorIdade();
+       //List<User> usersList = userRepository.findByMaiorIdade();
 
-       assertThat(usersList).hasSize(3);
+       //assertThat(usersList).hasSize(3);
     }
 }

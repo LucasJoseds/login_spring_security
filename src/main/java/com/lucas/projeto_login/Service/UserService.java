@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.lucas.projeto_login.DTO.UserDTO;
 import com.lucas.projeto_login.DTO.UserResponseDTO;
+import com.lucas.projeto_login.Model.Role;
 import com.lucas.projeto_login.Model.User;
+import com.lucas.projeto_login.Repository.RoleRepository;
 import com.lucas.projeto_login.Repository.UserRepository;
 
 
@@ -16,17 +18,27 @@ import com.lucas.projeto_login.Repository.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
        this.userRepository = userRepository;
+       this.roleRepository = roleRepository;
     }
 
 
     public User create (UserDTO dto){
 
-        User nUser = UserDTO.converterDTO(dto);
-        
+
+        Role r = new Role();
+        r.setName("User");
+        roleRepository.save(r);
+
+        User nUser = new User();
+        nUser.setName(dto.name());
+        nUser.setEmail(dto.email());
+        nUser.setPassword(dto.password());
+        nUser.getRoles().add(r);
         return userRepository.save(nUser);
 
     }
@@ -49,6 +61,8 @@ public class UserService {
 
   
    }
+
+   
 
     public List<UserResponseDTO> listName(int paginas , int itens){
 

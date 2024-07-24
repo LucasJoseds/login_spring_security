@@ -31,13 +31,8 @@ public class UserController {
     @PostMapping(value="/create")
     public ResponseEntity<User> createUser(@RequestBody UserDTO dto){
 
-        try {
             var userCreated = userService.create(dto);   
-            return new ResponseEntity<>(userCreated,HttpStatus.CREATED);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+            return new ResponseEntity<>(userCreated,HttpStatus.CREATED); 
 
     }
 
