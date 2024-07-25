@@ -4,6 +4,7 @@ package com.lucas.projeto_login.Service;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lucas.projeto_login.DTO.UserDTO;
@@ -19,11 +20,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
        this.userRepository = userRepository;
        this.roleRepository = roleRepository;
+       this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -31,13 +33,13 @@ public class UserService {
 
 
         Role r = new Role();
-        r.setName("User");
+        r.setName("ADMIN");
         roleRepository.save(r);
 
         User nUser = new User();
         nUser.setName(dto.name());
         nUser.setEmail(dto.email());
-        nUser.setPassword(dto.password());
+        nUser.setPassword(passwordEncoder.encode(dto.password()));
         nUser.getRoles().add(r);
         return userRepository.save(nUser);
 

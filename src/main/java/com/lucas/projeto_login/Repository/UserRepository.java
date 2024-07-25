@@ -1,6 +1,8 @@
 package com.lucas.projeto_login.Repository;
 
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
    Page<User> findAll(Pageable pageable);
 
-
+   Optional<User> findByEmail(String email);
    //@Query(nativeQuery=true,value="select * from tbl_users where idade >=18")
   // List<User> findByMaiorIdade();
  
