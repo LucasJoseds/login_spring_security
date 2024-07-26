@@ -7,13 +7,11 @@ public record UserDTO(String name,
                       String password
                   ) {
 
-
                          public static User converterDTO(UserDTO dto){
-
                             User user = new User();
                             user.setEmail(dto.email);
                             user.setName(dto.name);
-                            user.setPassword(dto.password());
+                            user.setPassword((dto.password()));
                      
                        return user;
                          }

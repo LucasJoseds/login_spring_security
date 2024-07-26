@@ -1,6 +1,5 @@
 package com.lucas.projeto_login.Service;
 
-
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
@@ -9,11 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.lucas.projeto_login.DTO.UserDTO;
 import com.lucas.projeto_login.DTO.UserResponseDTO;
-import com.lucas.projeto_login.Model.Role;
 import com.lucas.projeto_login.Model.User;
 import com.lucas.projeto_login.Repository.RoleRepository;
 import com.lucas.projeto_login.Repository.UserRepository;
-
 
 @Service
 public class UserService {
@@ -22,53 +19,44 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
-       this.userRepository = userRepository;
-       this.roleRepository = roleRepository;
-       this.passwordEncoder = passwordEncoder;
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+            BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    public UserResponseDTO create(UserDTO dto) {
 
-    public User create (UserDTO dto){
-
-
-        Role r = new Role();
-        r.setName("ADMIN");
-        roleRepository.save(r);
+        var roleUser = roleRepository.findByName("USER");
 
         User nUser = new User();
         nUser.setName(dto.name());
         nUser.setEmail(dto.email());
         nUser.setPassword(passwordEncoder.encode(dto.password()));
-        nUser.getRoles().add(r);
-        return userRepository.save(nUser);
+        nUser.getRoles().add(roleUser);
+        userRepository.save(nUser);
+
+        var userCreated = UserResponseDTO.valueOf(nUser);
+        
+        return userCreated;
 
     }
 
-   public UserResponseDTO updateUser(Long id, UserResponseDTO dto){
+    public UserResponseDTO updateUser(Long id, UserResponseDTO dto) throws Exception {
 
-    var user = userRepository.findById(id).get();
+        var oldUser = userRepository.findById(id).get();
 
-    if(user==null){
-        return null;
+        var nUser = UserResponseDTO.updateUser(dto, oldUser);
+        userRepository.save(nUser);
+        var userP = UserResponseDTO.valueOf(nUser);
+        return userP;
+
     }
-    user.setEmail(dto.email());
-    user.setName(dto.name());
 
-    var nUser = UserResponseDTO.valueOf(user);
-
-    userRepository.save(user);
-
-    return nUser;
-
-  
-   }
-
-   
-
-    public List<UserResponseDTO> listName(int paginas , int itens){
+    public List<UserResponseDTO> listName(int paginas, int itens) {
 
         return userRepository.findAll(PageRequest.of(paginas, itens)).getContent().stream()
-        .map(e -> UserResponseDTO.valueOf(e)).toList();
+                .map(e -> UserResponseDTO.valueOf(e)).toList();
     }
 }
