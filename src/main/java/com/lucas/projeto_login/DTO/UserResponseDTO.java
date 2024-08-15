@@ -1,6 +1,6 @@
 package com.lucas.projeto_login.DTO;
 
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.lucas.projeto_login.Model.Role;
 import com.lucas.projeto_login.Model.User;
@@ -8,16 +8,17 @@ import com.lucas.projeto_login.Model.User;
 
 
 public record UserResponseDTO(Long id ,String name, 
-                              String email, Set<Role> roles) {
+                              String email, String roles) {
 
 
     public static UserResponseDTO valueOf(User user){
 
+        String roles = user.getRoles().stream().map(Role::getName).collect(Collectors.joining(" "));
 
         return new UserResponseDTO(user.getId(),
         user.getName(), 
         user.getEmail(),
-        user.getRoles());
+        roles);
     }
 
     public static User updateUser(UserResponseDTO dto, User user ){

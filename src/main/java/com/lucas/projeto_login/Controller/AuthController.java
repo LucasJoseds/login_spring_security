@@ -22,10 +22,11 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<LoginResponseDTO> auth(@RequestBody LoginDTO dto){
+    public ResponseEntity<LoginResponseDTO> auth(@RequestBody LoginDTO dto) throws Exception{
 
             var tokenResult = authService.authentication(dto);
-            return new ResponseEntity<LoginResponseDTO>(new LoginResponseDTO(tokenResult),HttpStatus.CREATED);
+            var user = authService.getUser(dto);
+            return new ResponseEntity<LoginResponseDTO>(new LoginResponseDTO(tokenResult,user),HttpStatus.CREATED);
     }
     
 }

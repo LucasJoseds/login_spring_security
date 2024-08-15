@@ -81,4 +81,6 @@ public class UserService {
         return userRepository.findAll(PageRequest.of(paginas, itens)).getContent().stream()
                 .map(e -> UserResponseDTO.valueOf(e)).toList();
     }
+
+    
 }
